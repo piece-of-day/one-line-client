@@ -11,10 +11,12 @@
     "lint:code": "eslint --ext .js,.jsx,.ts,.tsx src"
   },
   "dependencies": {
+    "framer-motion": "^7.6.19",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-is": "^18.2.0",
     "react-router-dom": "^6.4.4",
+    "recoil": "^0.7.6",
     "styled-components": "^5.3.6",
     "styled-reset": "^4.4.4"
   },
@@ -25,6 +27,7 @@
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
     "@types/react-router-dom": "^5.3.3",
+    "@types/recoil": "^0.0.9",
     "@types/styled-components": "^5",
     "@typescript-eslint/eslint-plugin": "^5.45.1",
     "@typescript-eslint/parser": "^5.45.1",
