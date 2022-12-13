@@ -17,7 +17,8 @@ const dummy: MessageValue[] = [
 ];
 
 const MainPage = () => {
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollTopRef = useRef<HTMLDivElement>(null);
+  const scrollBottomRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll();
 
   const { innerWidth } = window;
@@ -26,8 +27,18 @@ const MainPage = () => {
   const { isLock, lockScroll } = useScrollLock();
 
   const scrollToTop = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+    if (scrollTopRef.current) {
+      scrollTopRef.current.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+    }
+  };
+
+  const scrollToBottom = () => {
+    if (scrollBottomRef.current) {
+      scrollBottomRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end',
+        inline: 'nearest',
+      });
     }
   };
 
@@ -46,18 +57,28 @@ const MainPage = () => {
   }, []);
 
   useEffect(() => {
-    scrollToTop();
     lockScroll();
   }, []);
 
+  useEffect(() => {
+    if (!isLock) {
+      scrollToBottom();
+    } else {
+      scrollToTop();
+    }
+  }, [isLock]);
+
   return (
     <div>
-      <div ref={scrollRef} />
+      <div ref={scrollTopRef} />
       <EmptySection />
       <EmptySection />
       <EmptySection />
       <Curtain progress={progress} />
-      <AnimatePresence>{isLock ? <SelectSection messageList={dummy} /> : null}</AnimatePresence>
+      <AnimatePresence mode='wait'>
+        {isLock ? <SelectSection messageList={dummy} /> : null}
+      </AnimatePresence>
+      <div ref={scrollBottomRef} />
     </div>
   );
 };
