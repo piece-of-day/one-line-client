@@ -3,7 +3,7 @@ import {
   GoBottomBtnImg,
   MessageListContainer,
   SectionTitle,
-  SelectContainer,
+  SectionContainer,
   TitleImg,
 } from './style';
 
@@ -32,8 +32,8 @@ const motionContainer = {
 };
 
 const motionChild = {
-  hidden: { opacity: 0, y: -25, transition: { ease: 'easeInOut', duration: 0.35 } },
-  show: { opacity: 1, y: 0, transition: { ease: 'easeInOut', duration: 0.35 } },
+  hidden: { opacity: 0, y: -25, transition: { ease: 'easeInOut', duration: 0.7 } },
+  show: { opacity: 1, y: 0, transition: { ease: 'easeInOut', duration: 0.7 } },
 };
 
 const motionMsgListContainer = {
@@ -43,7 +43,7 @@ const motionMsgListContainer = {
     transition: {
       when: 'beforeChildren',
       staggerChildren: 0.1,
-      delay: 0.7,
+      delay: 0.25,
     },
   },
 };
@@ -75,7 +75,7 @@ const SelectSection = ({ messageList }: SelectSectionValue) => {
   };
 
   return (
-    <SelectContainer variants={motionContainer} initial='hidden' animate='show' exit='hidden'>
+    <SectionContainer variants={motionContainer} initial='hidden' animate='show' exit='hidden'>
       <TitleImg src={WaiterImg} variants={motionChild} layout />
 
       {pageState === PAGE_STATE.BEFORE_SELECT ? (
@@ -92,11 +92,7 @@ const SelectSection = ({ messageList }: SelectSectionValue) => {
         </SectionTitle>
       ) : null}
 
-      <MessageListContainer
-        variants={motionMsgListContainer}
-        layout
-        transition={{ duration: 0.35 }}
-      >
+      <MessageListContainer variants={motionMsgListContainer} layout transition={{ duration: 0.5 }}>
         {messageList.map((item, idx) =>
           pageState === PAGE_STATE.BEFORE_SELECT || idx === selectedMsgIdx ? (
             <Message
@@ -105,18 +101,24 @@ const SelectSection = ({ messageList }: SelectSectionValue) => {
               category={item.category}
               message={item.message}
               onClick={() => clickMessageHandler(idx)}
+              selected={idx === selectedMsgIdx}
               layout
             />
           ) : null,
         )}
       </MessageListContainer>
       {pageState === PAGE_STATE.AFTER_SELECT ? (
-        <GoBottomBtn variants={motionFadeIn} onClick={() => clickGoBottomBtnHandler()}>
+        <GoBottomBtn
+          variants={motionFadeIn}
+          onClick={() => clickGoBottomBtnHandler()}
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.25 }}
+        >
           <GoBottomBtnImg src={PenDrawingIcon} />
           나도 한 줄 적어보기
         </GoBottomBtn>
       ) : null}
-    </SelectContainer>
+    </SectionContainer>
   );
 };
 

@@ -12,6 +12,7 @@ interface MessageComponentValue extends MessageValue {
   variants?: Variants;
   onClick?: () => void;
   layout?: boolean;
+  selected?: boolean;
 }
 
 const Message = ({
@@ -20,12 +21,19 @@ const Message = ({
   message,
   onClick,
   layout = false,
+  selected = false,
 }: MessageComponentValue) => {
   return (
-    <MessageContainer variants={variants} layout={layout}>
+    <MessageContainer
+      variants={variants}
+      layout={layout}
+      onClick={onClick}
+      whileHover={{ scale: 1.02 }}
+      transition={{ duration: 0.25 }}
+    >
       <Category category={category} />
       <MessageWrapper>{message}</MessageWrapper>
-      <RecommendBtn onClick={onClick}>
+      <RecommendBtn selected={selected}>
         <RecommendImg src={RecommendIcon} />
       </RecommendBtn>
     </MessageContainer>
