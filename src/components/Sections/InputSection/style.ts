@@ -67,6 +67,15 @@ export const InputImg = styled.img`
   filter: invert(100%);
 `;
 
+export const ResetButton = styled(motion.button)`
+  width: 3rem;
+`;
+
+export const ResetButtonImg = styled.img`
+  width: 100%;
+  filter: invert(100%);
+`;
+
 export const SendButton = styled(motion.button)`
   display: flex;
   justify-content: center;

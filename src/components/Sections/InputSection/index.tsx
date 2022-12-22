@@ -10,9 +10,12 @@ import {
   SendButton,
   SendButtonImg,
   SendButtonText,
+  ResetButton,
+  ResetButtonImg,
 } from './style';
 
 import WaiterImg from '@/assets/images/waiter.png';
+import XIcon from '@/assets/icons/icon-x.svg';
 import SendIcon from '@/assets/icons/icon-send.svg';
 import PencilIcon from '@/assets/icons/icon-pen-signature.svg';
 
@@ -34,8 +37,8 @@ const motionChild = {
 };
 
 const motionButton = {
-  hidden: { opacity: 0, x: -25, transition: { ease: 'easeOut', duration: 0.5 } },
-  show: { opacity: 1, x: 0, transition: { ease: 'easeOut', duration: 0.5 } },
+  hidden: { opacity: 0, y: 25, transition: { ease: 'easeOut', duration: 0.5 } },
+  show: { opacity: 1, y: 0, transition: { ease: 'easeOut', duration: 0.5 } },
 };
 
 const InputSection = () => {
@@ -44,6 +47,11 @@ const InputSection = () => {
   const inputTextHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.currentTarget.value);
   };
+
+  const resetTextHandler = () => {
+    setText('');
+  };
+
   return (
     <SectionContainer variants={motionContainer} initial='hidden' animate='show' exit='hidden'>
       <TitleImg src={WaiterImg} variants={motionChild} layout />
@@ -54,6 +62,13 @@ const InputSection = () => {
       <InputContainer variants={motionChild} layout>
         <InputImg src={PencilIcon} />
         <Input value={text} onChange={inputTextHandler} />
+        <ResetButton
+          onClick={resetTextHandler}
+          animate={{ opacity: text !== '' ? 1 : 0 }}
+          transition={{ duration: 0.35 }}
+        >
+          <ResetButtonImg src={XIcon} />
+        </ResetButton>
       </InputContainer>
 
       {text !== '' ? (
