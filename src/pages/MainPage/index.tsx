@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useQuery } from 'react-query';
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, useScroll, useTransform } from 'framer-motion';
 
@@ -15,6 +16,7 @@ import useMainPageState from '@/hooks/useMainPageState';
 import { MessageValue } from '@/types/message';
 
 import { PAGE_STATE } from '@/constants/state';
+import { fetchGetThreeLines } from '@/apis/line';
 
 const dummy: MessageValue[] = [
   { category: '위로', message: '맘껏 울어라 억지로 버텨라 내일은 내일의 해가 뜰테니' },
@@ -63,6 +65,10 @@ const MainPage = () => {
     setPageOffset(Math.floor(offset));
   };
 
+  const { data } = useQuery('getThreeLines', fetchGetThreeLines) ?? { data: dummy };
+
+  console.log(data);
+
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
@@ -99,8 +105,8 @@ const MainPage = () => {
       ))}
       <Curtain progress={progress} />
       <AnimatePresence mode='wait'>
-        {pageState <= PAGE_STATE.AFTER_SELECT ? (
-          <SelectSection key='section-select' messageList={dummy} />
+        {pageState <= PAGE_STATE.AFTER_SELECT && data ? (
+          <SelectSection key='section-select' messageList={data as any} />
         ) : null}
         {pageState === PAGE_STATE.INPUT ? <InputSection key='section-input' /> : null}
       </AnimatePresence>
