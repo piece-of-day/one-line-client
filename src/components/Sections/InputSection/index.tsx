@@ -12,7 +12,14 @@ import {
   SendButtonText,
   ResetButton,
   ResetButtonImg,
+  LoginModalContainer,
+  LoginModalText,
 } from './style';
+
+import { KakaoLogin } from '@/components/OAuthLogin';
+
+import useModal from '@/hooks/useModal';
+import useLogin from '@/hooks/useLogin';
 
 import WaiterImg from '@/assets/images/waiter.png';
 import XIcon from '@/assets/icons/icon-x.svg';
@@ -43,6 +50,8 @@ const motionButton = {
 
 const InputSection = () => {
   const [text, setText] = useState('');
+  const { showModal } = useModal();
+  const { loginWithKakao } = useLogin();
 
   const inputTextHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.currentTarget.value);
@@ -50,6 +59,21 @@ const InputSection = () => {
 
   const resetTextHandler = () => {
     setText('');
+  };
+
+  const clickSendBtnHandler = () => {
+    showModal({
+      type: 'alert',
+      children: (
+        <LoginModalContainer>
+          <LoginModalText>
+            <b>한 줄</b>을 남기기 위해서는 <br />
+            로그인이 필요합니다.
+          </LoginModalText>
+          <KakaoLogin onClick={() => loginWithKakao()} />
+        </LoginModalContainer>
+      ),
+    });
   };
 
   return (
@@ -72,7 +96,7 @@ const InputSection = () => {
       </InputContainer>
 
       {text !== '' ? (
-        <SendButton variants={motionButton}>
+        <SendButton onClick={clickSendBtnHandler} variants={motionButton}>
           <SendButtonImg src={SendIcon} />
           <SendButtonText>한 줄 전송</SendButtonText>
         </SendButton>

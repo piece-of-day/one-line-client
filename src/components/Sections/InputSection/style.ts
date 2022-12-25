@@ -104,3 +104,26 @@ export const SendButtonImg = styled.img`
 `;
 
 export const SendButtonText = styled.span``;
+
+export const LoginModalContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 1rem 2rem 3rem 2rem;
+  height: 17rem;
+  width: 37rem;
+
+  align-items: center;
+`;
+
+export const LoginModalText = styled.span`
+  font-size: ${FontSize.XL};
+  font-weight: ${FontWeight.REGULAR};
+  line-height: 1.5;
+  align-self: flex-start;
+  b {
+    font-size: ${FontSize.XL};
+    font-weight: ${FontWeight.MEDIUM};
+  }
+`;
