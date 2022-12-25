@@ -25,6 +25,13 @@ const fetchApi = {
       mode: 'cors',
       credentials: 'include',
       headers: getHeader(),
+    }).then(async (response) => {
+      const data = await response.json();
+
+      if (response.ok) {
+        return data;
+      }
+      throw new FetchError(response);
     }),
 
   post: (path: string, body: RequestData): Promise<CustomResponse> =>
