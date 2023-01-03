@@ -100,7 +100,7 @@ const MainPage = () => {
       ) : (
         <AnimatePresence mode='wait'>
           {pageState <= PAGE_STATE.AFTER_SELECT ? (
-            <SelectSection key='section-select' messageList={msgList as any} />
+            <SelectSection key='section-select' messageList={msgList} />
           ) : null}
           {pageState === PAGE_STATE.INPUT ? <InputSection key='section-input' /> : null}
         </AnimatePresence>
