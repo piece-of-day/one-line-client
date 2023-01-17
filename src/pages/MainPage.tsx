@@ -3,12 +3,10 @@ import { useQuery } from 'react-query';
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, useScroll, useTransform } from 'framer-motion';
 
-import { MainPageContainer } from './style';
+import { MainPageContainer } from './MainPage.styled';
 
-import SelectSection from '@/components/Sections/SelectSection';
-import InputSection from '@/components/Sections/InputSection';
-import EmptySection from '@/components/Sections/EmptySection';
-import Curtain from '@/components/Curtain';
+import { EmptySection, InputSection, SelectSection } from '@/components/Sections';
+import { Curtain } from '@/components/Curtain';
 
 import useScrollLock from '@/hooks/useScrollLock';
 import useMainPageState from '@/hooks/useMainPageState';

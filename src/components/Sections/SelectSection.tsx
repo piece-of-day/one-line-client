@@ -5,9 +5,9 @@ import {
   SectionTitle,
   SectionContainer,
   TitleImg,
-} from './style';
+} from './SelectSection.styled';
 
-import Message from '@/components/Message';
+import { Message } from '@/components/Message';
 
 import useScrollLock from '@/hooks/useScrollLock';
 import useMainPageState from '@/hooks/useMainPageState';

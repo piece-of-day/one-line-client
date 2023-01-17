@@ -14,7 +14,7 @@ import {
   ResetButtonImg,
   LoginModalContainer,
   LoginModalText,
-} from './style';
+} from './InputSection.styled';
 
 import { KakaoLogin } from '@/components/OAuthLogin';
 
