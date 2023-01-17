@@ -11,6 +11,7 @@ import { Curtain } from '@/components/Curtain';
 import useScrollLock from '@/hooks/useScrollLock';
 import useMainPageState from '@/hooks/useMainPageState';
 
+import { scrollTo } from '@/utils/scroll';
 import { getCookie } from '@/utils/cookie';
 
 import { PAGE_STATE } from '@/constants/state';
@@ -33,54 +34,35 @@ const MainPage = () => {
   const { pageState } = getMainPageState();
   const [pageOffset, setPageOffset] = useState(0);
 
-  const scrollToTop = () => {
-    if (scrollTopRef.current) {
-      scrollTopRef.current.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
-    }
-  };
+  const { status, data: msgList } = useQuery(API_KEYS.GET_THREE_LINES, fetchGetThreeLines);
 
-  const scrollToBottom = () => {
-    if (scrollBottomRef.current) {
-      scrollBottomRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'end',
-        inline: 'nearest',
-      });
-    }
-  };
+  if (getCookie('session_id')) {
+    openScroll();
+    scrollTo(scrollBottomRef);
+  }
 
   const handleScroll = () => {
     const offset = window.scrollY / window.innerHeight;
     if (offset === 0) {
-      scrollToTop();
+      scrollTo(scrollTopRef);
       lockScroll();
     }
     setPageOffset(Math.floor(offset));
   };
 
-  const { status, data: msgList } = useQuery(API_KEYS.GET_THREE_LINES, fetchGetThreeLines);
-
-  if (getCookie('session_id')) {
-    openScroll();
-    scrollToBottom();
-  }
-
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
+    lockScroll();
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
   useEffect(() => {
-    lockScroll();
-  }, []);
-
-  useEffect(() => {
     if (!isLock) {
-      scrollToBottom();
+      scrollTo(scrollBottomRef);
     } else {
-      scrollToTop();
+      scrollTo(scrollTopRef);
     }
   }, [isLock]);
 
