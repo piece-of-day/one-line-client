@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useLocation } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, useScroll, useTransform } from 'framer-motion';
@@ -12,7 +13,6 @@ import useScrollLock from '@/hooks/useScrollLock';
 import useMainPageState from '@/hooks/useMainPageState';
 
 import { scrollTo } from '@/utils/scroll';
-import { getCookie } from '@/utils/cookie';
 
 import { PAGE_STATE } from '@/constants/state';
 import { API_KEYS } from '@/constants/apiKey';
@@ -21,38 +21,34 @@ import { fetchGetThreeLines } from '@/apis/line';
 const EMPTY_SECTIONS = 6;
 
 const MainPage = () => {
+  const { scrollYProgress } = useScroll();
   const scrollTopRef = useRef<HTMLDivElement>(null);
   const scrollBottomRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll();
 
   const { innerWidth } = window;
   const progress = useTransform(scrollYProgress, [0, 1], [0, innerWidth]);
 
-  const { isLock, lockScroll, openScroll } = useScrollLock();
+  const { isLock, lockScroll } = useScrollLock();
   const { getMainPageState, setMainPageState } = useMainPageState();
 
+  const { state } = useLocation();
   const { pageState } = getMainPageState();
   const [pageOffset, setPageOffset] = useState(0);
 
   const { status, data: msgList } = useQuery(API_KEYS.GET_THREE_LINES, fetchGetThreeLines);
 
-  if (getCookie('session_id')) {
-    openScroll();
-    scrollTo(scrollBottomRef);
-  }
-
   const handleScroll = () => {
     const offset = window.scrollY / window.innerHeight;
     if (offset === 0) {
-      scrollTo(scrollTopRef);
       lockScroll();
     }
+
     setPageOffset(Math.floor(offset));
   };
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
-    lockScroll();
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -87,9 +83,11 @@ const MainPage = () => {
       ) : (
         <AnimatePresence mode='wait'>
           {pageState <= PAGE_STATE.AFTER_SELECT ? (
-            <SelectSection key='section-select' messageList={msgList} />
+            <SelectSection key='section-select' messageList={msgList} state={state} />
           ) : null}
-          {pageState === PAGE_STATE.INPUT ? <InputSection key='section-input' /> : null}
+          {pageState === PAGE_STATE.INPUT ? (
+            <InputSection key='section-input' state={state} />
+          ) : null}
         </AnimatePresence>
       )}
       <div ref={scrollBottomRef} />
