@@ -28,7 +28,7 @@ const MainPage = () => {
   const { innerWidth } = window;
   const progress = useTransform(scrollYProgress, [0, 1], [0, innerWidth]);
 
-  const { isLock, lockScroll } = useScrollLock();
+  const { isLock, lockScroll, openScroll } = useScrollLock();
   const { getMainPageState, setMainPageState } = useMainPageState();
 
   const { state } = useLocation();
@@ -49,6 +49,11 @@ const MainPage = () => {
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
 
+    if (state?.lineId && state?.content && state?.name) {
+      openScroll();
+    } else {
+      lockScroll();
+    }
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
