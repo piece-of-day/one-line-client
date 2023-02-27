@@ -1,7 +1,8 @@
 /* eslint-disable camelcase */
 
-import useCategory from './useCategory';
 import { CategoryWrapper } from './Category.styled';
+
+import useCategory from '@/hooks/useCategory';
 
 import { getContrastColorOnlyBW } from '@/utils/color';
 
