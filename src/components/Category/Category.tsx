@@ -8,17 +8,19 @@ import { getContrastColorOnlyBW } from '@/utils/color';
 
 interface CategoryValue {
   category: string;
+  value?: string;
+  disabled?: boolean;
 }
 
-const Category = ({ category }: CategoryValue) => {
+const Category = ({ category, value = '', disabled = false }: CategoryValue) => {
   const dict = useCategory();
   const { title_korean, color: bgColor } = dict[category] ?? dict.unknown;
 
   const textColor = getContrastColorOnlyBW(bgColor);
 
   return (
-    <CategoryWrapper backgroundColor={bgColor} color={textColor}>
-      {title_korean}
+    <CategoryWrapper backgroundColor={bgColor} color={textColor} disabled={disabled}>
+      {title_korean ?? value}
     </CategoryWrapper>
   );
 };

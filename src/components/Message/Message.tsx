@@ -1,7 +1,8 @@
 import { Variants } from 'framer-motion';
 
 import { MessageContainer, MessageWrapper, RecommendBtn, RecommendImg } from './Message.styled';
-import { Category } from './Category';
+
+import { Category } from '@/components/Category';
 
 import { MessageValue } from '@/types/message';
 
